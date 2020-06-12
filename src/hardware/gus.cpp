@@ -225,6 +225,7 @@ public:
 		PanPot = val;
 		PanLeft = pantable[0x0f-(val & 0xf)];
 		PanRight = pantable[(val & 0xf)];
+		LOG_MSG("GUS Voice #%02u: WritePanPot = %02u", channum, val);
 		UpdateVolumes();
 	}
 	Bit8u ReadPanPot(void) {
@@ -803,10 +804,24 @@ static void MakeTables(void) {
 		//Original amplification routine in the hardware
 		//vol16bit[i] = ((256 + i & 0xff) << VOL_SHIFT) / (1 << (24 - (i >> 8)));
 	}
-	pantable[0] = 4095 << RAMP_FRACT;
-	for (i=1;i<16;i++) {
-		pantable[i]=(Bit32u)(0.5-128.0*(log((double)i/15.0)/log(2.0))*(double)(1 << RAMP_FRACT));
-	}
+
+	// The original pan-table calculation is per Equation 7-10 in Section
+	// 7-19 of the InterWave(TM) IC Am78C201/202 Programmer's Guide, Rev.2,
+	// 1996.
+	// pantable[i]=(Bit32u)(0.5-128.0*(log((double)i/15.0)/log(2.0))*(double)(1
+	// << RAMP_FRACT));
+	//
+	// However, this does not produce constant power as described on page
+	// 164 of the Gravis UltraSound Software SDK rev 2.33: "As the balance
+	// is shifted from left to right, the total output power of both
+	// channels is constant.", therefore, we correct the original table
+	// values per the equation for constant power: (sqrt(2)/2)*(cos(angle)
+	// +/- sin(angle) Reference: Roads, Curtis (1996). The Computer Music
+	// Tutorial. Cambridge: The MIT Press, pp. 457–461.
+	i = 0;
+	for (const uint16_t cpf : {4095u, 515u, 392u, 318u, 263u, 219u, 181u,
+	                           149u, 120u, 92u, 69u, 48u, 30u, 15u, 5u, 0u})
+		pantable[i++] = cpf << RAMP_FRACT;
 }
 
 class GUS:public Module_base{
