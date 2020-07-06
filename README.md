@@ -82,10 +82,15 @@ Other differences:
 [10]:https://github.com/dosbox-staging/dosbox-staging/commit/239396fec83dbba6a1eb1a0f4461f4a427d2be38
 [11]: https://github.com/dosbox-staging/dosbox-staging/pull/477
 
-## Development snapshot builds
+## Stable release builds
 
-[Links to the newest development builds](https://dosbox-staging.github.io/downloads/devel/)
+[Linux](https://dosbox-staging.github.io/downloads/linux/),
+[Windows](https://dosbox-staging.github.io/downloads/windows/),
+[macOS](https://dosbox-staging.github.io/downloads/macos/)
 
+## Test builds / development snapshots
+
+[Links to the newest builds](https://dosbox-staging.github.io/downloads/devel/)
 
 ## Build instructions
 
@@ -93,7 +98,7 @@ Read [INSTALL](INSTALL) file for a general summary about dependencies and
 configure options. Read [BUILD.md](BUILD.md) for the comprehensive
 compilation guide.
 
-You can also use a helper script [`./scripts/build.sh`](scripts/build.sh),
+You can also use helper script [`./scripts/build.sh`](scripts/build.sh),
 that performs builds for many useful scenarios (LTO, FDO, sanitizer builds,
 many others).
 
@@ -103,12 +108,14 @@ Install build dependencies appropriate for your OS:
 
 ``` shell
 # Fedora
-$ sudo dnf install gcc-c++ automake alsa-lib-devel libpng-devel SDL2-devel SDL2_net-devel opusfile-devel
+$ sudo dnf install gcc-c++ automake alsa-lib-devel libpng-devel \
+                   SDL2-devel SDL2_net-devel opusfile-devel
 ```
 
 ``` shell
 # Debian, Ubuntu
-$ sudo apt install build-essential automake libasound2-dev libpng-dev libsdl2-dev libsdl2-net-dev libopusfile-dev
+$ sudo apt install build-essential automake libasound2-dev libpng-dev \
+                   libsdl2-dev libsdl2-net-dev libopusfile-dev
 ```
 
 ``` shell
@@ -154,16 +161,10 @@ selected as the solution platform.  Use Ctrl+Shift+B to build all projects.
 Instructions for other build systems and operating systems are documented
 in [BUILD.md](BUILD.md).
 
-## Interop with SVN
-
-This repository is (deliberately) NOT git-svn compatible, this is a pure
-Git repo.
+## Imported branches and community patches
 
 Commits landing in SVN upstream are imported to this repo in a timely manner,
 to the branches matching [`svn/*`] pattern.
-You can safely use those branches to rebase your changes, and prepare patches
-using Git [format-patch](https://git-scm.com/docs/git-format-patch) for sending
-upstream (it is easier and faster, than preparing patches manually).
 
 Other branch name patterns are also in use, e.g. [`vogons/*`] for various
 patches posted on the Vogons forum.
@@ -180,7 +181,8 @@ git fetch origin "refs/notes/*:refs/notes/*"
 ```
 
 For some historical context of why this repo exists you can read
-[Vogons thread](https://www.vogons.org/viewtopic.php?p=790065#p790065).
+[Vogons thread](https://www.vogons.org/viewtopic.php?p=790065#p790065),
+([1](https://imgur.com/a/bnJEZcx), [2](https://imgur.com/a/HnG1Ls4))
 
 [`svn/*`]:https://github.com/dosbox-staging/dosbox-staging/branches/all?utf8=%E2%9C%93&query=svn%2F
 [`vogons/*`]:https://github.com/dosbox-staging/dosbox-staging/branches/all?utf8=%E2%9C%93&query=vogons%2F
