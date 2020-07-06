@@ -97,32 +97,31 @@ You can also use a helper script [`./scripts/build.sh`](scripts/build.sh),
 that performs builds for many useful scenarios (LTO, FDO, sanitizer builds,
 many others).
 
-### Install build dependencies
+### Linux, macOS
+
+Install build dependencies appropriate for your OS:
 
 ``` shell
 # Fedora
-$ sudo dnf install alsa-lib-devel SDL2-devel SDL2_net-devel opusfile-devel
+$ sudo dnf install gcc-c++ automake alsa-lib-devel libpng-devel SDL2-devel SDL2_net-devel opusfile-devel
 ```
 
 ``` shell
 # Debian, Ubuntu
-$ sudo apt install
+$ sudo apt install build-essential automake libasound2-dev libpng-dev libsdl2-dev libsdl2-net-dev libopusfile-dev
 ```
 
 ``` shell
 # Arch, Manjaro
-$ sudo apt install
+$ sudo pacman -S gcc automake alsa-lib libpng sdl2 sdl2_net opusfile
 ```
 
-```
+``` shell
 # macOS
-$ brew install
+$ brew install autogen automake libpng sdl2 sdl2_net opusfile
 ```
 
-### Build
-
-These build flags are suggested for local release builds; see TODO for compilation flags
-more suited for development.
+Following flags are suggested for local optimised builds:
 
 ``` shell
 $ git clone https://github.com/dosbox-staging/dosbox-staging.git
@@ -132,11 +131,13 @@ $ ./configure CFLAGS="-march=native -DNDEBUG -O3" CXXFLAGS="-march=native -DNDEB
 $ make -j$(nproc)
 ```
 
-### Visual Studio (2019 or newer)
+See TODO for compilation flags more suited for development.
+
+### Windows - Visual Studio (2019 or newer)
 
 First, you need to setup [vcpkg](https://github.com/microsoft/vcpkg) to
-install build dependencies. Once vcpkg is installed and bootstrapped, open
-PowerShell, and run:
+install build dependencies. Once vcpkg is bootstrapped, open PowerShell,
+and run:
 
 ``` powershell
 PS:\> .\vcpkg integrate install
@@ -148,9 +149,10 @@ These two steps will ensure that MSVC finds and links all dependencies.
 Start Visual Studio and open file: `vs\dosbox.sln`. Make sure you have `x64`
 selected as the solution platform.  Use Ctrl+Shift+B to build all projects.
 
-### MSYS2, MinGW, other OSes
+### Windows (MSYS2, MinGW), macOS (MacPorts), Haiku OS, others
 
-TODO link to build.md
+Instructions for other build systems and operating systems are documented
+in [BUILD.md](BUILD.md).
 
 ## Interop with SVN
 
