@@ -22,6 +22,7 @@ support today's systems.
 | **Static analysis**            | Yes<sup>[2],[3],[4]</sup>   | No
 | **Dynamic analysis**           | Yes                         | No
 | **clang-format**               | Yes                         | No
+| **[Development builds]**       | Yes                         | No
 | **Automated regression tests** | No (WIP)                    | No
 
 [SVN]:https://sourceforge.net/projects/dosbox/
@@ -29,6 +30,7 @@ support today's systems.
 [2]:https://github.com/dosbox-staging/dosbox-staging/actions?query=workflow%3A%22Code+analysis%22
 [3]:https://github.com/dosbox-staging/dosbox-staging/actions?query=workflow%3A%22PVS-Studio+analysis%22
 [4]:https://scan.coverity.com/projects/dosbox-staging
+[Development builds]:https://dosbox-staging.github.io/downloads/devel/
 
 ### Feature differences
 
@@ -82,74 +84,53 @@ Other differences:
 
 ## Development snapshot builds
 
-Pre-release builds can be downloaded from CI build artifacts. Go to [Linux],
-[Windows] or [macOS], select the newest build and download the package linked
-in the "**Artifacts**" section.
+[Links to the newest development builds](https://dosbox-staging.github.io/downloads/devel/)
 
-You need to be logged-in on GitHub to access these snapshot builds.
-
-### [Linux]
-
-Snapshots are dynamically-linked x86\_64 builds, you'll need additional
-packages installed via your package manager.
-
-#### Fedora
-
-    sudo dnf install SDL2 SDL2_net opusfile
-
-#### Debian (9 or newer), Ubuntu (16.04 LTS or newer)
-
-    sudo apt install libsdl2-2.0-0 libsdl2-net-2.0-0 libopusfile0
-
-#### Arch, Manjaro
-
-    sudo pacman -S sdl2 sdl2_net opusfile
-
-
-### [Windows]
-
-Our Windows snapshots include both 32-bit (x86) and 64-bit (x64) builds.
-
-A dosbox.exe file in a snapshot package is not signed, therefore Windows 10
-might prevent the program from starting.
-
-If Windows displays the message "Windows Defender SmartScreen prevented an
-unrecognised app from starting", you have two options to dismiss it:
-
-1) Click "More info", and button "Run anyway" will appear.
-2) Right-click on dosbox.exe, select: Properties → General → Security → Unblock
-
-### [macOS]
-
-Due to GitHub CI and Apple SDKs limitations, the snapshots work only on
-macOS Catalina (10.15).
-
-dosbox-staging app bundle is **unsigned** - click on app with right mouse
-button, select "Open" and the dialog will show a button to run and unsigned app.
-
-[Linux]:https://github.com/dosbox-staging/dosbox-staging/actions?query=workflow%3A%22Linux+builds%22+is%3Asuccess+branch%3Amaster
-[Windows]:https://github.com/dosbox-staging/dosbox-staging/actions?query=workflow%3A%22Windows+builds%22+is%3Asuccess+branch%3Amaster
-[macOS]:https://github.com/dosbox-staging/dosbox-staging/actions?query=workflow%3A%22macOS+builds%22+is%3Asuccess+branch%3Amaster
 
 ## Build instructions
-
-### Linux, macOS, MSYS2, MinGW, other OSes
 
 Read [INSTALL](INSTALL) file for a general summary about dependencies and
 configure options. Read [BUILD.md](BUILD.md) for the comprehensive
 compilation guide.
 
-``` shell
-git clone https://github.com/dosbox-staging/dosbox-staging.git
-cd dosbox-staging
-./autogen.sh
-./configure
-make
-```
-
 You can also use a helper script [`./scripts/build.sh`](scripts/build.sh),
 that performs builds for many useful scenarios (LTO, FDO, sanitizer builds,
 many others).
+
+### Install build dependencies
+
+``` shell
+# Fedora
+$ sudo dnf install alsa-lib-devel SDL2-devel SDL2_net-devel opusfile-devel
+```
+
+``` shell
+# Debian, Ubuntu
+$ sudo apt install
+```
+
+``` shell
+# Arch, Manjaro
+$ sudo apt install
+```
+
+```
+# macOS
+$ brew install
+```
+
+### Build
+
+These build flags are suggested for local release builds; see TODO for compilation flags
+more suited for development.
+
+``` shell
+$ git clone https://github.com/dosbox-staging/dosbox-staging.git
+$ cd dosbox-staging
+$ ./autogen.sh
+$ ./configure CFLAGS="-march=native -DNDEBUG -O3" CXXFLAGS="-march=native -DNDEBUG -O3"
+$ make -j$(nproc)
+```
 
 ### Visual Studio (2019 or newer)
 
@@ -166,6 +147,10 @@ These two steps will ensure that MSVC finds and links all dependencies.
 
 Start Visual Studio and open file: `vs\dosbox.sln`. Make sure you have `x64`
 selected as the solution platform.  Use Ctrl+Shift+B to build all projects.
+
+### MSYS2, MinGW, other OSes
+
+TODO link to build.md
 
 ## Interop with SVN
 
